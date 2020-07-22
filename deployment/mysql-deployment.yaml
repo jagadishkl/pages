@@ -34,7 +34,7 @@ spec:
       volumes:
         - name: mysql-storage
           persistentVolumeClaim:
-            claimName: mysql-volume-claim
+            claimName: mysql-volume-claim-jagadish
 ---
 apiVersion: v1
 kind: Service

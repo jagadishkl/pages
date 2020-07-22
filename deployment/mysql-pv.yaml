@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: mysql-volume
+  name: mysql-volume-jagadish
   namespace: jagadishkl
   labels:
     type: local
@@ -17,7 +17,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: mysql-volume-claim
+  name: mysql-volume-claim-jagadish
   namespace: jagadishkl
 spec:
   storageClassName: manual
