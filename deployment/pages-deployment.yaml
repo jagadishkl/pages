@@ -5,7 +5,7 @@ metadata:
     app: pages
     servicefor: pages
   name: pages
-  namespace: aditya
+  namespace: jagadishkl
 spec:
   replicas: 1
   selector:
@@ -19,10 +19,36 @@ spec:
         app: pages
         servicefor: pages
     spec:
+      volumes:
+        - name: log-volume
+          emptyDir: {}
       containers:
-      - image: adityapratapbhuyan/pages:config
-        name: pages
-        ports:
-          - containerPort: 8080
-        resources: {}
+        - image: jagadishkl/pages:persistence
+          imagePullPolicy: Always
+          name: pages
+          ports:
+            - containerPort: 8080
+          env:
+            - name: PAGE_CONTENT
+              valueFrom:
+                configMapKeyRef:
+                  name: pages-config-map
+                  key: PAGE_CONTENT
+          volumeMounts:
+            - name: log-volume
+              mountPath: "/var/tmp/"
+          readinessProbe:
+            tcpSocket:
+              port: 8080
+            initialDelaySeconds: 15
+            periodSeconds: 5
+            successThreshold: 1
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 15
+            periodSeconds: 5
+            successThreshold: 1
+          resources: {}
 status: {}
